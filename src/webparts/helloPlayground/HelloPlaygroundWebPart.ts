@@ -5,7 +5,10 @@ import {
   EnvironmentType,
   Log
 } from "@microsoft/sp-core-library";
-import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
+import {
+  BaseClientSideWebPart,
+  PropertyPaneSlider
+} from "@microsoft/sp-webpart-base";
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
@@ -15,8 +18,11 @@ import { escape } from "@microsoft/sp-lodash-subset";
 import styles from "./HelloPlaygroundWebPart.module.scss";
 import * as strings from "HelloPlaygroundWebPartStrings";
 
+
 export interface IHelloPlaygroundWebPartProps {
   description: string;
+  myContinent: string;
+  numContinentsVisited: number;
 }
 
 export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
@@ -56,6 +62,12 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
               <p class="${styles.description}">${escape(
         this.properties.description
       )}</p>
+      <p class="${styles.description}">Continent: ${escape(
+        this.properties.myContinent
+      )}</p>
+      <p class="${styles.description}">Visited Countries: ${
+        this.properties.numContinentsVisited
+      }</p>
               <a href="#" class="${styles.button}">
                 <span class="${styles.label}">Learn more</span>
               </a>
@@ -70,7 +82,7 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
           alert("Welcome to my Playground!");
         });
     }, 5000);
-    
+
     Log.info("HelloPlayground", "message", this.context.serviceScope);
     Log.warn("HelloPlayground", "WARNING message", this.context.serviceScope);
     Log.error(
@@ -88,6 +100,10 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
   protected get dataVersion(): Version {
     return Version.parse("1.0");
   }
+  // disable reactive changes in WebPart
+  /* protected get disableReactivePropertyChanges():boolean {
+    return true;
+   }*/
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
     return {
@@ -102,6 +118,16 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
               groupFields: [
                 PropertyPaneTextField("description", {
                   label: strings.DescriptionFieldLabel
+                }),
+                PropertyPaneTextField("myContinent", {
+                  label: "Continent where I reside"
+                  //onGetErrorMessage: this.validateContinents.bind(this)
+                }),
+                PropertyPaneSlider("numContinentsVisited", {
+                  label: "Number of continents  I've visited",
+                  min: 1,
+                  max: 6,
+                  showValue: true
                 })
               ]
             }
@@ -110,4 +136,12 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
       ]
     };
   }
+  /*   private validateContinents(textboxValue: string): string {
+    const validContinentOptions: string[] = ['africa', 'antarctica', 'asia', 'north america', 'north macedonia', 'australia', 'south america'];
+    const inputToValidate: string = textboxValue.toLowerCase();
+
+    return (validContinentOptions.indexOf(inputToValidate) === -1)
+    ? 'Invalid continent entry; valid options are "Africa", "Antarctica", "Asia", "North America", "North Macedonia", "Australia", "South America"'
+    : '';
+  } */
 }
