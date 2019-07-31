@@ -14,14 +14,16 @@
   "requiresCustomScript": false,
   "supportedHosts": ["SharePointWebPart"],
 
-  "preconfiguredEntries": [{
-    "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
-    "group": { "default": "Other" },
-    "title": { "default": "HelloPlayground" },
-    "description": { "default": "HelloPlayground description" },
-    "officeFabricIconFontName": "Page",
-    "properties": {
-      "description": "HelloPlayground"
+  "preconfiguredEntries": [
+    {
+      "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
+      "group": { "default": "Other" },
+      "title": { "default": "Hello SPFx" },
+      "description": { "default": "HelloPlayground is a SPFx web part" },
+      "officeFabricIconFontName": "InfoSolid",
+      "properties": {
+        "description": "Hello Playground"
+      }
     }
-  }]
+  ]
 }

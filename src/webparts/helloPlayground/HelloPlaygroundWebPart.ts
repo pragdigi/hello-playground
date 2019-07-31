@@ -1,40 +1,49 @@
-import { Version } from '@microsoft/sp-core-library';
-import { BaseClientSideWebPart } from '@microsoft/sp-webpart-base';
+import { Version } from "@microsoft/sp-core-library";
+import { BaseClientSideWebPart } from "@microsoft/sp-webpart-base";
 import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
-} from '@microsoft/sp-property-pane';
-import { escape } from '@microsoft/sp-lodash-subset';
+} from "@microsoft/sp-property-pane";
+import { escape } from "@microsoft/sp-lodash-subset";
 
-import styles from './HelloPlaygroundWebPart.module.scss';
-import * as strings from 'HelloPlaygroundWebPartStrings';
+import styles from "./HelloPlaygroundWebPart.module.scss";
+import * as strings from "HelloPlaygroundWebPartStrings";
 
 export interface IHelloPlaygroundWebPartProps {
   description: string;
 }
 
-export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<IHelloPlaygroundWebPartProps> {
-
+export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<
+  IHelloPlaygroundWebPartProps
+> {
   public render(): void {
     this.domElement.innerHTML = `
-      <div class="${ styles.helloPlayground }">
-        <div class="${ styles.container }">
-          <div class="${ styles.row }">
-            <div class="${ styles.column }">
-              <span class="${ styles.title }">Welcome to SharePoint!</span>
-              <p class="${ styles.subTitle }">Customize SharePoint experiences using Web Parts.</p>
-              <p class="${ styles.description }">${escape(this.properties.description)}</p>
-              <a href="https://aka.ms/spfx" class="${ styles.button }">
-                <span class="${ styles.label }">Learn more</span>
+      <div class="${styles.helloPlayground}">
+        <div class="${styles.container}">
+          <div class="${styles.row}">
+            <div class="${styles.column}">
+              <span class="${styles.title}">Welcome to SharePoint!</span>
+              <p class="${styles.subTitle}">Playing around with this WebPart</p>
+              <p class="${styles.description}">${escape(
+      this.properties.description
+    )}</p>
+              <a href="#" class="${styles.button}">
+                <span class="${styles.label}">Learn more</span>
               </a>
             </div>
           </div>
         </div>
       </div>`;
+    this.domElement
+      .getElementsByClassName(`${styles.button}`)[0]
+      .addEventListener("click", (event: any) => {
+        event.preventDefault();
+        alert('Welcome to my Playground!');
+      });
   }
 
   protected get dataVersion(): Version {
-    return Version.parse('1.0');
+    return Version.parse("1.0");
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -48,7 +57,7 @@ export default class HelloPlaygroundWebPart extends BaseClientSideWebPart<IHello
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
+                PropertyPaneTextField("description", {
                   label: strings.DescriptionFieldLabel
                 })
               ]
